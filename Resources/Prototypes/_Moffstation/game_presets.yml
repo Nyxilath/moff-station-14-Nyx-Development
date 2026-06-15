@@ -27,6 +27,7 @@
   - MeteorSwarmScheduler
   - SpaceTrafficControlEventScheduler
   - BasicRoundstartVariation
+  - RoundstartSpecialRoleVariation # Moffstation - Roundstart Visitors
 
 - type: gamePreset
   id: ExtendedAdmin
@@ -55,3 +56,4 @@
   - MeteorSwarmScheduler
   - SpaceTrafficControlEventScheduler
   - BasicRoundstartVariation
+  - RoundstartSpecialRoleVariation # Moffstation - Roundstart Visitors

@@ -3,7 +3,8 @@
   id: Stowaways
   components:
   - type: GameRule
-    minPlayers: 30
+    #minPlayers: 30 - debug
+    minPlayers: 0
     cancelPresetOnTooFewPlayers: false
   - type: AntagRandomSpawn
   - type: AntagLoadProfileRule

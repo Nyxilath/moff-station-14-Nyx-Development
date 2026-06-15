@@ -13,3 +13,4 @@
   - MeteorSwarmScheduler
   - SpaceTrafficControlEventScheduler
   - BasicRoundstartVariation
+  - RoundstartSpecialRoleVariation # Moffstation - Roundstart Visitors

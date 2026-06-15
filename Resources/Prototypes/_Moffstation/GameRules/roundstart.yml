@@ -1,3 +1,4 @@
+# Subgamemode
 - type: entity
   parent: BaseGameRule
   id: SubGamemodesRule
@@ -42,3 +43,13 @@
     - id: BloodBrothers
       orGroup: SubGamemodes
       prob: 0.35
+
+# variation passes
+- type: entity
+  id: RoundstartSpecialRoleVariation
+  parent: BaseGameRule
+  components:
+  - type: RoundstartStationVariationRule
+    rules:
+    - id: Stowaways
+      #prob: 0.20 - debug

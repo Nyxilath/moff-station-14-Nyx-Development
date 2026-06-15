@@ -10,6 +10,7 @@
     - RampingStationEventScheduler
     - SpaceTrafficControlEventScheduler
     - BasicRoundstartVariation
+    - RoundstartSpecialRoleVariation # Moffstation - Roundstart Visitors
 
 - type: gamePreset
   id: KesslerSyndrome
@@ -153,6 +154,7 @@
   - MeteorSwarmScheduler
   - SpaceTrafficControlEventScheduler
   - BasicRoundstartVariation
+  - RoundstartSpecialRoleVariation # Moffstation - Roundstart Visitors
 
 - type: gamePreset
   id: Deathmatch
@@ -200,6 +202,7 @@
   - MeteorSwarmScheduler
   - SpaceTrafficControlEventScheduler
   - BasicRoundstartVariation
+  - RoundstartSpecialRoleVariation # Moffstation - Roundstart Visitors
 
 - type: gamePreset
   id: Wizard
@@ -232,6 +235,7 @@
   - MeteorSwarmScheduler
   - SpaceTrafficControlEventScheduler
   - BasicRoundstartVariation
+  - RoundstartSpecialRoleVariation # Moffstation - Roundstart Visitors
 
 - type: gamePreset
   id: Zombie
@@ -250,6 +254,7 @@
   - MeteorSwarmScheduler
   - SpaceTrafficControlEventScheduler
   - BasicRoundstartVariation
+  - RoundstartSpecialRoleVariation # Moffstation - Roundstart Visitors
 
 - type: gamePreset
   id: Zombieteors
