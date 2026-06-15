@@ -1,0 +1,16 @@
+﻿# CHANGE ALL OF THIS NYX
+- type: antag
+  id: Freelancer
+  name: roles-antag-stowaway-name
+  antagonist: false
+  setPreference: true
+  objective: roles-antag-stowaway-objective
+
+- type: startingGear
+  id: FreelanceGear
+  equipment:
+    jumpsuit: ClothingUniformRandomStandard
+    shoes: ClothingShoesColorBlack
+    mask: ClothingMaskGas
+    gloves: ClothingHandsGlovesColorYellow
+    id: CardboardIDCard

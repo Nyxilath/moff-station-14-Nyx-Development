@@ -33,6 +33,15 @@
   - OpeningShift
 
 - type: antagCategory
+  id: Freelancers
+  name: antag-catagory-freelancer-name
+  description: antag-catagory-freelancer-desc
+  accentColor: "#F28B33"
+  priority: 60
+  antags:
+  - Stowaway
+
+- type: antagCategory
   id: Other
   name: antag-catagory-misc-name
   description: antag-catagory-misc-desc

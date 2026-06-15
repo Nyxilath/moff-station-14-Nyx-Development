@@ -1,9 +1,11 @@
+﻿# CHANGE ALL OF THIS NYX
 - type: entity
   parent: BaseGameRule
-  id: Stowaways
+  id: RoundstartFreelancer
   components:
   - type: GameRule
-    minPlayers: 30
+    #minPlayers: 30 - debug
+    minPlayers: 0
     cancelPresetOnTooFewPlayers: false
   - type: AntagRandomSpawn
   - type: AntagLoadProfileRule
@@ -21,7 +23,7 @@
 
 - type: antagSpecifier
   parent: RestrictedAntag
-  id: Stowaway
+  id: RoundstartFreelancer
   prefRoles:
   - Stowaway
   startingGear: StowawayGear

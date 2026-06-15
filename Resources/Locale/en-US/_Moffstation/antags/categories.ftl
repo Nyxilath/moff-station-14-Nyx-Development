@@ -15,3 +15,6 @@ antag-catagory-nanotrasen-desc = The company you (allegedly) work for. Glory to 
 
 antag-catagory-misc-name = Other
 antag-catagory-misc-desc = Various roles which don't fall under the other factions.
+
+antag-catagory-freelancer-name = Freelancer
+antag-catagory-freelancer-desc = Third party organizations not under Nanotrasen's banner, looking to their sell goods and services to the station.

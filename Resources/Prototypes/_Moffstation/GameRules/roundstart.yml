@@ -51,5 +51,5 @@
   components:
   - type: RoundstartStationVariationRule
     rules:
-    - id: Stowaways
-      #prob: 0.20 - debug
+    - id: Stowaways # Currently broken, but still here
+      prob: 0.20
