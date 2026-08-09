@@ -72,6 +72,7 @@
     drainTime: 10
     sparkSound:
      path: /Audio/Effects/PowerSink/charge_fire.ogg
+    destroyOnDrain: true
   - type: ComplexInteraction
   - type: ExaminableBattery
   - type: PassiveDamage # passive regen.

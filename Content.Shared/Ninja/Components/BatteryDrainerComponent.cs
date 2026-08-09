@@ -37,4 +37,7 @@ public sealed partial class BatteryDrainerComponent : Component
     /// </summary>
     [DataField]
     public SoundSpecifier SparkSound = new SoundCollectionSpecifier("sparks");
+
+    [DataField]
+    public bool DestroyOnDrain;
 }

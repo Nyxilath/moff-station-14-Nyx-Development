@@ -7,6 +7,7 @@ using Content.Shared.Ninja.Systems;
 using Content.Shared.Popups;
 using Content.Shared.Power.Components;
 using Content.Shared.Power.EntitySystems;
+using Content.Shared.Wall;
 using Robust.Shared.Audio.Systems;
 
 namespace Content.Server.Ninja.Systems;
@@ -116,6 +117,23 @@ public sealed partial class BatteryDrainerSystem : SharedBatteryDrainerSystem
         Spawn("EffectSparks", Transform(target).Coordinates);
         _audio.PlayPvs(comp.SparkSound, target);
         _popup.PopupEntity(Loc.GetString("battery-drainer-success", ("battery", target)), uid, uid);
+
+        if (ent.Comp.DestroyOnDrain)
+        {
+            if (TryComp<WallMountComponent>(target, out var wallMount))
+            {
+                 Spawn("StationMapBroken",  Transform(target).Coordinates);
+            }
+            else
+            {
+                Spawn("MachineFrameDestroyed",  Transform(target).Coordinates);
+            }
+
+            _popup.PopupEntity(Loc.GetString("battery-drainer-circuit-fry"), target, uid);
+
+            QueueDel(target);
+            return false;
+        }
 
         // repeat the doafter until battery is full
         return !_battery.IsFull((comp.BatteryUid.Value, battery));
