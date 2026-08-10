@@ -92,6 +92,8 @@
   # Moffstation - Begin - Remove slowdown on damage
   - type: SlowOnDamage
     speedModifierThresholds: {}
+  - type: Anomaly
+  - type: ElectricityAnomaly
   # Moffstation - End
 
 - type: entity

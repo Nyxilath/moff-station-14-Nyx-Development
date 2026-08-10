@@ -129,7 +129,8 @@ public sealed partial class BatteryDrainerSystem : SharedBatteryDrainerSystem
                 Spawn("MachineFrameDestroyed",  Transform(target).Coordinates);
             }
 
-            _popup.PopupEntity(Loc.GetString("battery-drainer-circuit-fry"), target, uid);
+            _audio.PlayPvs(comp.SparkSound, target);
+            _popup.PopupEntity(Loc.GetString("battery-drainer-circuit-fry", ("battery", target)), uid, uid);
 
             QueueDel(target);
             return false;

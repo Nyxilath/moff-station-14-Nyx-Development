@@ -1,8 +1,10 @@
 using System.Numerics;
 using Content.Server.Administration.Logs;
 using Content.Server.Singularity.Events;
+using Content.Server.Tesla.Components;
 using Content.Shared.Database;
 using Content.Shared.Mind.Components;
+using Content.Shared.Ninja.Components;
 using Content.Shared.Singularity.Components;
 using Content.Shared.Singularity.EntitySystems;
 using Content.Shared.Station.Components;
@@ -15,6 +17,7 @@ using Robust.Shared.Physics.Events;
 using Robust.Shared.Physics.Systems;
 using Robust.Shared.Prototypes;
 using Robust.Shared.Timing;
+using Content.Server.Polymorph.Systems;
 
 namespace Content.Server.Singularity.EntitySystems;
 
@@ -34,6 +37,7 @@ public sealed partial class EventHorizonSystem : SharedEventHorizonSystem
     [Dependency] private SharedMapSystem _mapSystem = default!;
     [Dependency] private TagSystem _tagSystem = default!;
     [Dependency] private EntityQuery<PhysicsComponent> _physicsQuery = default!;
+    [Dependency] private PolymorphSystem _polymorph = default!; // Don't question it
     #endregion Dependencies
 
     private static readonly ProtoId<TagPrototype> HighRiskItemTag = "HighRiskItem";
@@ -123,6 +127,14 @@ public sealed partial class EventHorizonSystem : SharedEventHorizonSystem
     {
         if (EntityManager.IsQueuedForDeletion(morsel)) // already handled, and we're substepping
             return;
+
+        if (TryComp<BatteryDrainerComponent>(morsel, out var batteryDrainer) &&
+            TryComp<TeslaEnergyBallComponent>(hungry, out var teslaEnergyBall))
+        {
+            QueueDel(hungry);
+            _polymorph.PolymorphEntity(morsel, "EeepGrow"); //always a bigger fish
+            return;
+        }
 
         if (HasComp<MindContainerComponent>(morsel)
             || _tagSystem.HasTag(morsel, HighRiskItemTag)
