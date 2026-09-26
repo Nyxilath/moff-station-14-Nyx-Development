@@ -16,9 +16,10 @@ using Content.Shared.IdentityManagement;
 using Content.Shared.Interaction;
 using Content.Shared.Inventory;
 using Content.Shared.Popups;
-using Content.Shared.Tag;
 using Content.Shared.Stacks;
 using Content.Server.Stack;
+using Content.Server.Tools;
+using Content.Shared.Tools;
 using Robust.Shared.Audio;
 using Robust.Shared.Audio.Systems;
 using Robust.Shared.Configuration;
@@ -38,7 +39,7 @@ public sealed partial class SuitBreachSystem : SharedSuitBreachSystem
     [Dependency] private SharedAudioSystem _audio = null!;
     [Dependency] private SharedPopupSystem _popup = null!;
     [Dependency] private SharedDoAfterSystem _doAfter = null!;
-    [Dependency] private TagSystem _tag = null!;
+    [Dependency] private ToolSystem _tools = null!; // Moff - Use tool quality over tag
     [Dependency] private SharedGravitySystem _gravity = null!;
     [Dependency] private SharedPhysicsSystem _physics = null!;
     [Dependency] private StackSystem _stack = null!;
@@ -47,7 +48,7 @@ public sealed partial class SuitBreachSystem : SharedSuitBreachSystem
     private static readonly ProtoId<DamageTypePrototype>[] PuncturingDamageTypes =
         ["Piercing", "Slash", "Heat"];
 
-    private static readonly ProtoId<TagPrototype> SabotageTag = "Knife";
+    private static readonly ProtoId<ToolQualityPrototype> SabotageQuality = "Slicing"; // Moff - Use tool quality over tag
 
     private float _atmosAccumulator;
     private const float AtmosUpdateInterval = 1f;
@@ -58,15 +59,6 @@ public sealed partial class SuitBreachSystem : SharedSuitBreachSystem
         base.Initialize();
 
         Subs.CVar(_cfg, SuitBreachCVars.Enabled, v => _enabled = v, true);
-
-        SubscribeLocalEvent<DamageableComponent, DamageDealtEvent>(OnDamageDealt);
-        SubscribeLocalEvent<InternalsComponent, InteractUsingEvent>(OnInteractUsingSuitedTarget);
-        SubscribeLocalEvent<SuitBreachableComponent, InteractUsingEvent>(OnInteractUsingSuitItem);
-        SubscribeLocalEvent<SuitBreachedComponent, SuitSealDoAfterEvent>(OnSealDoAfter);
-        SubscribeLocalEvent<SuitBreachedComponent, ComponentShutdown>(OnBreachShutdown);
-        SubscribeLocalEvent<SuitBreachedComponent, GetPressureProtectionValuesEvent>(OnGetPressureProtection);
-        SubscribeLocalEvent<SuitBreachedComponent, GetTemperatureProtectionEvent>(OnGetTemperatureProtection);
-        SubscribeLocalEvent<SuitBreachableComponent, SuitSabotageDoAfterEvent>(OnSabotageDoAfter);
     }
 
     public override void Update(float frameTime)
@@ -102,6 +94,7 @@ public sealed partial class SuitBreachSystem : SharedSuitBreachSystem
     }
 
     // rolls a breach off a hit, escalates severity if it happens
+    [SubscribeLocalEvent]
     private void OnDamageDealt(EntityUid uid, DamageableComponent component, DamageDealtEvent args)
     {
         if (!_enabled)
@@ -130,6 +123,7 @@ public sealed partial class SuitBreachSystem : SharedSuitBreachSystem
         TryPuncture((suitUid.Value, null), severity, uid);
     }
 
+    [SubscribeLocalEvent]
     private void OnInteractUsingSuitedTarget(Entity<InternalsComponent> target, ref InteractUsingEvent args)
     {
         if (args.Handled)
@@ -141,12 +135,13 @@ public sealed partial class SuitBreachSystem : SharedSuitBreachSystem
         TryApplySealant(suitUid.Value, target.Owner, ref args);
     }
 
+    [SubscribeLocalEvent]
     private void OnInteractUsingSuitItem(Entity<SuitBreachableComponent> suit, ref InteractUsingEvent args)
     {
         if (args.Handled)
             return;
 
-        if (_enabled && _tag.HasTag(args.Used, SabotageTag))
+        if (_enabled && _tools.HasQuality(args.Used, SabotageQuality)) // Moff - Use tool quality over tag
         {
             if (IsWorn(suit.Owner))
             {
@@ -178,6 +173,7 @@ public sealed partial class SuitBreachSystem : SharedSuitBreachSystem
         TryApplySealant(suit.Owner, null, ref args);
     }
 
+    [SubscribeLocalEvent]
     private void OnSabotageDoAfter(Entity<SuitBreachableComponent> suit, ref SuitSabotageDoAfterEvent args)
     {
         if (args.Cancelled || args.Handled)
@@ -279,6 +275,7 @@ public sealed partial class SuitBreachSystem : SharedSuitBreachSystem
         return TryGetWearer(suitUid, out _);
     }
 
+    [SubscribeLocalEvent]
     private void OnSealDoAfter(Entity<SuitBreachedComponent> suit, ref SuitSealDoAfterEvent args)
     {
         if (args.Cancelled || args.Handled || args.Used is not { } usedUid)
@@ -429,11 +426,13 @@ public sealed partial class SuitBreachSystem : SharedSuitBreachSystem
         suit.Comp.HissStream = null;
     }
 
+    [SubscribeLocalEvent]
     private void OnBreachShutdown(Entity<SuitBreachedComponent> ent, ref ComponentShutdown args)
     {
         StopHiss(ent);
     }
 
+    [SubscribeLocalEvent]
     private void OnGetPressureProtection(Entity<SuitBreachedComponent> ent, ref GetPressureProtectionValuesEvent args)
     {
         if (ent.Comp.Severity != SuitBreachSeverity.Catastrophic)
@@ -445,6 +444,7 @@ public sealed partial class SuitBreachSystem : SharedSuitBreachSystem
         args.LowPressureModifier = 0f;
     }
 
+    [SubscribeLocalEvent]
     private void OnGetTemperatureProtection(Entity<SuitBreachedComponent> ent, ref GetTemperatureProtectionEvent args)
     {
         if (ent.Comp.Severity != SuitBreachSeverity.Catastrophic)
