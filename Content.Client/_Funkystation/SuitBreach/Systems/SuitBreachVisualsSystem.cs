@@ -1,5 +1,4 @@
-﻿/* Moff Start - We don't have Forky's particle system, commenting out for now
-using Content.Client._Starfall.Particles;
+﻿using Content.Client._Starfall.Particles;
 using Content.Shared._Funkystation.SuitBreach.Components;
 
 namespace Content.Client._Funkystation.SuitBreach.Systems;
@@ -60,4 +59,3 @@ public sealed partial class SuitBreachVisualsSystem : EntitySystem
         }
     }
 }
-Moff End */

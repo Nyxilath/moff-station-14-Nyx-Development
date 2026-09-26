@@ -7,8 +7,7 @@
   # Moff Start - use EntityTableContainerFill
   - type: EntityTableContainerFill
     containers:
-      entity_storage: !type:AllSelector
-        children:
-        - id: SuitSealantCanister
-          amount: 8
+      entity_storage:
+        id: SuitSealantCanister
+        amount: 8
   # Moff End
