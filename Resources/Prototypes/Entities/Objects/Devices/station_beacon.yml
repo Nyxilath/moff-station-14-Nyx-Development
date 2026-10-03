@@ -188,6 +188,11 @@
   components:
   - type: NavMapBeacon
     defaultText: station-beacon-brig
+  #    Moff Start - 'Early Arrival' Prisoners spawn in prison, where they belong
+  - type: ConditionalSpawner
+    prototypes:
+    - SpawnPointPrisoner
+  #    Moff End
 
 - type: entity
   parent: DefaultStationBeaconSecurity
@@ -228,6 +233,11 @@
   components:
   - type: NavMapBeacon
     defaultText: station-beacon-perma-brig
+  #    Moff Start - 'Early Arrival' Prisoners spawn in prison, where they belong
+  - type: ConditionalSpawner
+    prototypes:
+    - SpawnPointPrisoner
+  #    Moff End
 
 - type: entity
   parent: DefaultStationBeaconSecurity
