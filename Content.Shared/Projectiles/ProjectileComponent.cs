@@ -4,6 +4,7 @@ using Robust.Shared.Audio;
 using Robust.Shared.GameStates;
 using Robust.Shared.Prototypes;
 using Robust.Shared.Serialization.TypeSerializers.Implementations.Custom;
+using Content.Shared._Starfall.Particles;
 
 namespace Content.Shared.Projectiles;
 
@@ -110,4 +111,12 @@ public sealed partial class ProjectileComponent : Component
     /// </summary>
     [DataField]
     public FixedPoint2 PenetrationAmount = FixedPoint2.Zero;
+
+    // Moff Start - Projectile trails
+    /// <summary>
+    /// particles spraying from the suit while leaking
+    /// </summary>
+    [DataField]
+    public ProtoId<ParticleEffectPrototype> TrailEffect = "SfFireSmoke";
+    // Moff End
 }

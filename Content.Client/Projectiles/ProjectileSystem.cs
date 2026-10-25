@@ -1,3 +1,5 @@
+using Content.Client._Moffstation.Projectiles.Components;
+using Content.Client._Starfall.Particles;
 using Content.Shared.Projectiles;
 using Content.Shared.Weapons.Ranged.Systems;
 using Robust.Client.Animations;
@@ -10,6 +12,8 @@ public sealed partial class ProjectileSystem : SharedProjectileSystem
 {
     [Dependency] private AnimationPlayerSystem _player = default!;
     [Dependency] private SpriteSystem _sprite = default!;
+
+    [Dependency] private ParticleSystem _particles = default!;
 
     public override void Initialize()
     {
@@ -53,6 +57,22 @@ public sealed partial class ProjectileSystem : SharedProjectileSystem
             };
 
             _player.Play(ent, anim, "impact-effect");
+        }
+    }
+
+    public override void FrameUpdate(float frameTime)
+    {
+        base.FrameUpdate(frameTime);
+
+        foreach (var ent in EntityQueryEnumerator<ProjectileComponent>())
+        {
+
+            var visuals = EnsureComp<ProjectileTrailVisualComponent>(ent);
+            visuals.Emitter ??= _particles.SpawnEffect(ent.Comp.TrailEffect, TransformSystem.GetMapCoordinates(ent), ent);
+            //visuals.HissStream ??= Audio.PlayEntity(ent.Comp.HissSound, Filter.Local(), ent, false)?.Entity;
+
+            if (visuals.Emitter is { Exhausted: false } emitter)
+                emitter.MapCoords = TransformSystem.GetMapCoordinates(ent);
         }
     }
 }
