@@ -1,4 +1,7 @@
 using Content.Shared.Radiation.Systems;
+using System.Numerics;
+using Robust.Shared.Prototypes;
+using Content.Shared._Starfall.Particles;
 
 namespace Content.Shared.Radiation.Components;
 
@@ -29,4 +32,30 @@ public sealed partial class RadiationSourceComponent : Component
 
     [DataField, ViewVariables(VVAccess.ReadWrite)]
     public bool Enabled = true;
+
+    /// <summary>The particle effect to emit.</summary>
+    //[DataField(required: true)]
+    [DataField]
+    public ProtoId<ParticleEffectPrototype> Effect = "SfFireContinuous";
+
+    /// <summary>
+    /// Optional color tint applied to every particle of this emitter.
+    /// Multiplied on top of the prototype colors; null leaves colors unchanged.
+    /// </summary>
+    [DataField]
+    public Color? ColorOverride;
+
+    /// <summary>
+    /// Starting intensity multiplier (0–1+). Scales emission rate and particle size.
+    /// 1.0 = normal.
+    /// </summary>
+    [DataField]
+    public float VisualIntensity = 1f;
+
+    /// <summary>
+    /// Local-space offset applied to the spawn origin of this emitter.
+    /// Useful for shifting the effect away from the entity's anchor point.
+    /// </summary>
+    [DataField]
+    public Vector2 SpawnOffset;
 }
