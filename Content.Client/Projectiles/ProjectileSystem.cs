@@ -14,6 +14,7 @@ public sealed partial class ProjectileSystem : SharedProjectileSystem
     [Dependency] private SpriteSystem _sprite = default!;
 
     [Dependency] private ParticleSystem _particles = default!;
+    [Dependency] private TransformSystem _transform = default!;
 
     public override void Initialize()
     {
@@ -68,11 +69,10 @@ public sealed partial class ProjectileSystem : SharedProjectileSystem
         {
 
             var visuals = EnsureComp<ProjectileTrailVisualComponent>(ent);
-            visuals.Emitter ??= _particles.SpawnEffect(ent.Comp.TrailEffect, TransformSystem.GetMapCoordinates(ent), ent);
-            //visuals.HissStream ??= Audio.PlayEntity(ent.Comp.HissSound, Filter.Local(), ent, false)?.Entity;
+            visuals.Emitter ??= _particles.SpawnEffect(ent.Comp.TrailEffect, _transform.GetMapCoordinates(ent), ent);
 
             if (visuals.Emitter is { Exhausted: false } emitter)
-                emitter.MapCoords = TransformSystem.GetMapCoordinates(ent);
+                emitter.MapCoords = _transform.GetMapCoordinates(ent);
         }
     }
 }
