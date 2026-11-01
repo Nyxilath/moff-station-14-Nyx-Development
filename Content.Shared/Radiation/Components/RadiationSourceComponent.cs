@@ -37,7 +37,7 @@ public sealed partial class RadiationSourceComponent : Component
     /// <summary>The particle effect to emit.</summary>
     //[DataField(required: true)]
     [DataField]
-    public ProtoId<ParticleEffectPrototype> Effect = "SfFireContinuous";
+    public ProtoId<ParticleEffectPrototype> Effect = "MoffRadiationEmission";
 
     /// <summary>
     /// Optional color tint applied to every particle of this emitter.
