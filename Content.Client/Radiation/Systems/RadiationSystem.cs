@@ -14,11 +14,13 @@ public sealed partial class RadiationSystem : SharedRadiationSystem
 {
     [Dependency] private IOverlayManager _overlayMan = default!;
 
+    // Moff Start - Radioactive particle fx
     [Dependency] private ParticleSystem _particles = default!;
     [Dependency] private SharedTransformSystem _transform = default!;
 
     // Track emitter references so we can stop them when the entity leaves PVS or is removed.
     private readonly Dictionary<EntityUid, ActiveEmitter> _activeEmitters = new();
+    // End
 
     public List<DebugRadiationRay>? Rays;
     public Dictionary<NetEntity, Dictionary<Vector2i, float>>? ResistanceGrids;
@@ -61,6 +63,7 @@ public sealed partial class RadiationSystem : SharedRadiationSystem
         ResistanceGrids = ev.Grids;
     }
 
+    // Moff Start - Radioactive particle fx
     [SubscribeLocalEvent]
     private void OnCompInit(Entity<RadiationSourceComponent> ent, ref ComponentInit args)
     {
@@ -91,4 +94,5 @@ public sealed partial class RadiationSystem : SharedRadiationSystem
         if (_activeEmitters.Remove(ent.Owner, out var emitter))
             _particles.RemoveParticle(emitter);
     }
+    // Moff End
 }
